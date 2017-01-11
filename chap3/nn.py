@@ -18,6 +18,13 @@ def identity_function(x):
     return x
 
 
+def softmax(a):
+    exp_a = np.exp(a)
+    sum_exp_a = np.sum(exp_a)
+    y = exp_a / sum_exp_a
+    return y
+
+
 def func_sample():
     x = np.arange(-5.0, 5.0, 0.1)
     y = step_function(x)
