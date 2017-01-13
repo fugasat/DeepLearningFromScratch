@@ -19,7 +19,8 @@ def identity_function(x):
 
 
 def softmax(a):
-    exp_a = np.exp(a)
+    c = np.max(a)
+    exp_a = np.exp(a - c)  # オーバーフロー対策
     sum_exp_a = np.sum(exp_a)
     y = exp_a / sum_exp_a
     return y
@@ -155,6 +156,18 @@ def three_layered_nn_sample2():
     print(y)
 
 
+def softmax_sample():
+    a = np.array([0.3, 2.9, 4.0])
+    y = softmax(a)
+    print(y)
+    print(np.sum(y))  # softmaxの合計は1になる
+
+    a = np.array([1010, 1000, 990])
+    y = softmax(a)  # 大きな値でもオーバーフローしない
+    print(y)
+    print(np.sum(y))
+
+
 if __name__ == '__main__':
-    three_layered_nn_sample2()
+    softmax_sample()
 
