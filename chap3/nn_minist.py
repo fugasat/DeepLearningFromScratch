@@ -2,8 +2,9 @@ import sys, os
 sys.path.append(os.pardir)
 import numpy as np
 from dataset.mnist import load_mnist
-from PIL import Image
 import pickle
+import time
+import matplotlib.pylab as plt
 
 
 def sigmoid(x):
@@ -56,15 +57,39 @@ if __name__ == '__main__':
     x, t = get_test_data()  # 10,000件のテストデータを取得
     network = init_network()
 
-    accuracy_cnt = 0
-    for i in range(len(x)):
-        y = predict(network, x[i])
-        p = np.argmax(y)  # 最大値のインデックスを返す
-        # 正解かどうかチェック
-        if p == t[i]:
-            accuracy_cnt += 1
-        else:
-            a = t[i]
-            # print("error : {0} : {1}".format(t[i], y))
+    # 100件ずつまとめて処理する
+    #     1 : 0.66sec
+    #   100 : 0.06sec
+    # 10000 : 0.05sec
+    batch_size = 10000
 
-    print("Accuracy : {0}".format(float(accuracy_cnt) / len(x)))
+    px = []  # batch_size
+    py = []  # elasped_time
+
+    for batch_size in [1, 10, 50, 100, 1000, 5000, 10000]:
+        print("batch size : {0}".format(batch_size))
+        if (batch_size % 100) == 0:
+            print("{0}%".format(int(batch_size / 100)))
+
+        if batch_size == 0:
+            continue
+
+        accuracy_cnt = 0
+        start = time.time()
+
+        for i in range(0, len(x), batch_size):
+            x_batch = x[i:i + batch_size]
+            y_batch = predict(network, x_batch)
+            p = np.argmax(y_batch, axis=1)  # 最大値のインデックスを返す（axis=1 二つ目の次元を基準にする）
+            a = (p == t[i:i + batch_size])  # 各データが正解かどうかチェックした結果をbool配列で取得
+            cnt = np.sum(a)  # Trueの数をカウント
+            accuracy_cnt += cnt
+
+        elasped_time = time.time() - start
+        print("elasped time : {0}[sec]".format(elasped_time))
+        print("Accuracy : {0}".format(float(accuracy_cnt) / len(x)))
+        px.append(batch_size)
+        py.append(elasped_time)
+
+    plt.plot(px, py)
+    plt.savefig('graph_minist_elasped_time.png')
