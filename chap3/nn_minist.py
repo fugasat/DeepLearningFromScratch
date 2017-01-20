@@ -57,12 +57,6 @@ if __name__ == '__main__':
     x, t = get_test_data()  # 10,000件のテストデータを取得
     network = init_network()
 
-    # 100件ずつまとめて処理する
-    #     1 : 0.66sec
-    #   100 : 0.06sec
-    # 10000 : 0.05sec
-    batch_size = 10000
-
     px = []  # batch_size
     py = []  # elasped_time
 
