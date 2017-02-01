@@ -16,6 +16,16 @@ def cross_entropy_error(y, t):
     return -np.sum(t * np.log(y)) / batch_size
 
 
+def cross_entropy_error_one_hot_false(y, t):
+    if y.ndim == 1:
+        t = t.reshape(1, t.size)
+        y = y.reshape(1, y.size)
+
+    batch_size = y.shape[0]
+    y_arange = y[np.arange(batch_size), t]
+    return -np.sum(np.log(y_arange)) / batch_size
+
+
 if __name__ == '__main__':
     # x 0から9の値
     # t 画素データ
@@ -25,4 +35,5 @@ if __name__ == '__main__':
     batch_mask = np.random.choice(train_size, batch_size)
     x_batch = x_train[batch_mask]
     t_batch = t_train[batch_mask]
+    error = cross_entropy_error(x_batch, t_batch)
     pass
