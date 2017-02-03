@@ -55,6 +55,19 @@ def numerical_diff_sample():
     plt.ylabel("f(x)")
     plt.plot(x, y)
     plt.savefig('graph_4_6.png')
+
+    a5 = numerical_diff(function_1, 5)
+    b5 = function_1(5) - a5 * 5
+    y5 = x * a5 + b5
+    plt.plot(x, y5)
+
+    a10 = numerical_diff(function_1, 10)
+    b10 = function_1(10) - a10 * 10
+    y10 = x * a10 + b10
+    plt.plot(x, y10)
+
+    plt.savefig('graph_4_7.png')
+
     pass
 
 
