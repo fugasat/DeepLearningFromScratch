@@ -50,6 +50,7 @@ def function_1(x):
 
 
 def function_2(x):
+    # z = x**2 + y**2
     return x[0]**2 + x[1]**2
 
 
@@ -108,7 +109,10 @@ def numerical_diff_sample2():
     x0 = np.arange(-3, 3, 0.25)
     x1 = np.arange(-3, 3, 0.25)
     X, Y = np.meshgrid(x0, x1)
-    Z = function_2(np.array([X, Y]))
+
+    # [[x11,x12, ... ,xNN], [y11, y12, ... ,yNN]]
+    xy = np.array([X, Y])
+    Z = function_2(xy)
 
     fig = plt.figure()
     ax = Axes3D(fig)
@@ -117,6 +121,18 @@ def numerical_diff_sample2():
     plt.savefig('graph_4_8.png')
 
 
+# 偏微分
+def partial_derivative_sample():
+    def function_tmp1(x0):
+        return x0 ** 2 + (4.0) ** 2
+
+    def function_tmp2(x1):
+        return (3.0) ** 2 + x1 ** 2
+
+    print(numerical_diff(function_tmp1, 3.0))
+    print(numerical_diff(function_tmp2, 4.0))
+
+
 if __name__ == '__main__':
-    numerical_diff_sample2()
+    partial_derivative_sample()
     pass
