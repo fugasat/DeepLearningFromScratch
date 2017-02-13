@@ -4,7 +4,6 @@ from dataset.mnist import load_mnist
 import matplotlib.pylab as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-
 def mean_squared_error(y, t):
     return 0.5 * np.sum((y - t) ** 2)
 
@@ -75,36 +74,6 @@ def numerical_diff_sample():
     plt.savefig('graph_4_7.png')
 
 
-def _numerical_gradient_no_batch(f, x):
-    h = 1e-4  # 0.0001
-    grad = np.zeros_like(x)
-
-    for idx in range(x.size):
-        tmp_val = x[idx]
-        x[idx] = float(tmp_val) + h
-        fxh1 = f(x)  # f(x+h)
-
-        x[idx] = tmp_val - h
-        fxh2 = f(x)  # f(x-h)
-        grad[idx] = (fxh1 - fxh2) / (2 * h)
-
-        x[idx] = tmp_val  # 値を元に戻す
-
-    return grad
-
-
-def numerical_gradient(f, X):
-    if X.ndim == 1:
-        return _numerical_gradient_no_batch(f, X)
-    else:
-        grad = np.zeros_like(X)
-
-        for idx, x in enumerate(X):
-            grad[idx] = _numerical_gradient_no_batch(f, x)
-
-        return grad
-
-
 def numerical_diff_sample2():
     x0 = np.arange(-3, 3, 0.25)
     x1 = np.arange(-3, 3, 0.25)
@@ -133,6 +102,37 @@ def partial_derivative_sample():
     print(numerical_diff(function_tmp2, 4.0))
 
 
+# 勾配
+def numerical_gradient(f, x):
+    h = 1e-4  # 0.0001
+    grad = np.zeros_like(x)  # xと同じ形状の配列を生成
+
+    for idx in range(x.size):
+        tmp_val = x[idx]
+
+        # f(x+h)の計算
+        x[idx] = tmp_val + h
+        fxh1 = f(x)
+
+        # f(x-h)の計算
+        x[idx] = tmp_val - h
+        fxh2 = f(x)
+
+        # 数値微分の計算
+        grad[idx] = (fxh1 - fxh2) / (2 * h)
+
+        # xを元に戻す
+        x[idx] = tmp_val
+
+    return grad
+
+
+def numerical_gradient_sample():
+    print(numerical_gradient(function_2, np.array([3.0, 4.0])))
+    print(numerical_gradient(function_2, np.array([0.0, 2.0])))
+    print(numerical_gradient(function_2, np.array([3.0, 0.0])))
+
+
 if __name__ == '__main__':
-    partial_derivative_sample()
+    numerical_gradient_sample()
     pass
