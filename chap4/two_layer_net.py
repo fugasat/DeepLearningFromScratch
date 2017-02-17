@@ -4,6 +4,7 @@ from common.functions import *
 from common.gradient import numerical_gradient
 import numpy as np
 from dataset.mnist import load_mnist
+import matplotlib.pylab as plt
 
 class TwoLayerNet:
 
@@ -81,15 +82,20 @@ def sample1():
 
 
 def nn_batch():
-    (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True)
+    (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
 
     train_loss_list = []
+    train_acc_list = []
+    test_acc_list = []
 
     # ハイパーパラメータ
     iters_num = 10000
-    train_size = x_train.shape[0]
+    train_size = x_train.shape[0]  # 60000
     batch_size = 100
     learning_rate = 0.1
+
+    # 1エポックあたりの繰り返し数
+    iter_per_epoch = 10  #max(train_size / batch_size, 1)
 
     network = TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
 
@@ -111,6 +117,28 @@ def nn_batch():
         train_loss_list.append(loss)
         print("{0} : {1}".format(i, loss))
 
+        x_iter = np.arange(0, len(train_loss_list), 1)
+        plt.xlabel("iteration")
+        plt.ylabel("loss")
+        plt.ylim(0, 3)
+        plt.xlim(0, len(train_loss_list) + 1)
+        plt.plot(x_iter, train_loss_list)
+        plt.savefig('graph_4_11.png')
+
+        # 1エポック毎に認識精度を計算
+        if i % iter_per_epoch == 0:
+            train_acc = network.accuracy(x_train, t_train)
+            test_acc = network.accuracy(x_test, t_test)
+            train_acc_list.append(train_acc)
+            test_acc_list.append(test_acc)
+            print("train acc, test acc | " + str(train_acc) + " , " + str(test_acc))
+
+            x_iter = np.arange(0, len(train_acc_list), 1)
+            plt.ylim(0, 1)
+            plt.xlim(0, len(train_acc_list) + 1)
+            plt.plot(x_iter, train_acc_list)
+            plt.plot(x_iter, test_acc_list)
+            plt.savefig('graph_4_12.png')
 
 if __name__ == '__main__':
     nn_batch()
