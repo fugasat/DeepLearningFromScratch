@@ -124,6 +124,7 @@ def nn_batch():
         plt.xlim(0, len(train_loss_list) + 1)
         plt.plot(x_iter, train_loss_list)
         plt.savefig('graph_4_11.png')
+        plt.clf()
 
         # 1エポック毎に認識精度を計算
         if i % iter_per_epoch == 0:
@@ -139,6 +140,7 @@ def nn_batch():
             plt.plot(x_iter, train_acc_list)
             plt.plot(x_iter, test_acc_list)
             plt.savefig('graph_4_12.png')
+            plt.clf()
 
 if __name__ == '__main__':
     nn_batch()
