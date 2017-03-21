@@ -4,6 +4,7 @@ import numpy as np
 from dataset.mnist import load_mnist
 from chap5.two_layer_net import TwoLayerNet
 import matplotlib.pylab as plt
+import time
 
 # データ読み込み
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
@@ -20,6 +21,7 @@ test_acc_list = []
 
 iter_per_epoch = max(train_size / batch_size, 1)
 
+start = time.time()
 for i in range(iters_num):
     batch_mask = np.random.choice(train_size, batch_size)
     x_batch = x_train[batch_mask]
@@ -41,6 +43,7 @@ for i in range(iters_num):
         test_acc = network.accuracy(x_test, t_test)
         train_acc_list.append(train_acc)
         test_acc_list.append(test_acc)
+        print("loss : {0}".format(loss))
         print("train_acc : {0} / test_acc : {1}".format(train_acc, test_acc))
 
         x_iter = np.arange(0, len(train_loss_list), 1)
@@ -60,3 +63,5 @@ for i in range(iters_num):
         plt.savefig('graph_nn_acc.png')
         plt.clf()
 
+elapsed_time = time.time() - start
+print ("elapsed_time:{0}[sec]".format(str(elapsed_time)))
