@@ -102,13 +102,13 @@ class TwoLayerNet:
         grads['b2'] = self.layers['Affine2'].db
         return grads
 
-def train_nn(name, optimizer):
+def train_nn(name, optimizer, network):
     print("Optimizer={}".format(name))
 
     # データ読み込み
     (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
 
-    network = TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
+    #network = TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
 
     iters_num = 10000
     train_size = x_train.shape[0]
@@ -175,6 +175,9 @@ if __name__ == '__main__':
         "Adam": Adam(lr=0.001, beta1=0.9, beta2=0.999),
     }
     for key in optimizers.keys():
-        train_nn(key, optimizers[key])
+        train_nn(key, optimizers[key], TwoLayerNet(input_size=784, hidden_size=50, output_size=10))
+
+    train_nn("SGD_W0", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=0))
+    train_nn("SGD_W1", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=1))
 
 
