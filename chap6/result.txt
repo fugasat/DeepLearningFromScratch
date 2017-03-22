@@ -1,0 +1,79 @@
+Optimizer=Adam
+loss=2.2951 : train_acc=0.303 : test_acc=0.311
+loss=0.1031 : train_acc=0.921 : test_acc=0.922
+loss=0.2475 : train_acc=0.939 : test_acc=0.937
+loss=0.1675 : train_acc=0.950 : test_acc=0.948
+loss=0.0706 : train_acc=0.960 : test_acc=0.956
+loss=0.0299 : train_acc=0.965 : test_acc=0.961
+loss=0.0359 : train_acc=0.969 : test_acc=0.964
+loss=0.1070 : train_acc=0.974 : test_acc=0.967
+loss=0.0383 : train_acc=0.976 : test_acc=0.967
+loss=0.0488 : train_acc=0.978 : test_acc=0.968
+loss=0.1027 : train_acc=0.979 : test_acc=0.969
+loss=0.0515 : train_acc=0.981 : test_acc=0.970
+loss=0.0463 : train_acc=0.983 : test_acc=0.971
+loss=0.0455 : train_acc=0.984 : test_acc=0.972
+loss=0.0194 : train_acc=0.985 : test_acc=0.973
+loss=0.0226 : train_acc=0.987 : test_acc=0.971
+loss=0.0500 : train_acc=0.989 : test_acc=0.972
+elapsed_time:55.42701196670532[sec]
+
+Optimizer=AdaGrad
+loss=2.2369 : train_acc=0.171 : test_acc=0.167
+loss=0.1960 : train_acc=0.914 : test_acc=0.917
+loss=0.1518 : train_acc=0.925 : test_acc=0.925
+loss=0.2603 : train_acc=0.931 : test_acc=0.931
+loss=0.1217 : train_acc=0.934 : test_acc=0.934
+loss=0.2738 : train_acc=0.938 : test_acc=0.938
+loss=0.1047 : train_acc=0.941 : test_acc=0.939
+loss=0.1246 : train_acc=0.944 : test_acc=0.942
+loss=0.2186 : train_acc=0.946 : test_acc=0.944
+loss=0.1512 : train_acc=0.948 : test_acc=0.946
+loss=0.1816 : train_acc=0.949 : test_acc=0.947
+loss=0.2013 : train_acc=0.951 : test_acc=0.948
+loss=0.0433 : train_acc=0.952 : test_acc=0.950
+loss=0.1870 : train_acc=0.953 : test_acc=0.951
+loss=0.1614 : train_acc=0.954 : test_acc=0.952
+loss=0.1917 : train_acc=0.955 : test_acc=0.952
+loss=0.1782 : train_acc=0.956 : test_acc=0.954
+elapsed_time:60.391401052474976[sec]
+
+Optimizer=SGD
+loss=2.3016 : train_acc=0.099 : test_acc=0.100
+loss=1.8427 : train_acc=0.592 : test_acc=0.592
+loss=0.8872 : train_acc=0.799 : test_acc=0.806
+loss=0.5932 : train_acc=0.849 : test_acc=0.855
+loss=0.4986 : train_acc=0.873 : test_acc=0.878
+loss=0.4630 : train_acc=0.884 : test_acc=0.889
+loss=0.3629 : train_acc=0.892 : test_acc=0.896
+loss=0.3482 : train_acc=0.898 : test_acc=0.901
+loss=0.3031 : train_acc=0.900 : test_acc=0.902
+loss=0.4358 : train_acc=0.904 : test_acc=0.907
+loss=0.3690 : train_acc=0.907 : test_acc=0.911
+loss=0.4224 : train_acc=0.909 : test_acc=0.912
+loss=0.3086 : train_acc=0.910 : test_acc=0.915
+loss=0.1946 : train_acc=0.914 : test_acc=0.915
+loss=0.2616 : train_acc=0.915 : test_acc=0.918
+loss=0.4269 : train_acc=0.917 : test_acc=0.919
+loss=0.2446 : train_acc=0.918 : test_acc=0.921
+elapsed_time:54.726036071777344[sec]
+
+Optimizer=Momentum
+loss=2.3023 : train_acc=0.086 : test_acc=0.086
+loss=0.3947 : train_acc=0.901 : test_acc=0.905
+loss=0.2065 : train_acc=0.920 : test_acc=0.923
+loss=0.2387 : train_acc=0.935 : test_acc=0.935
+loss=0.1061 : train_acc=0.944 : test_acc=0.943
+loss=0.2053 : train_acc=0.948 : test_acc=0.945
+loss=0.2867 : train_acc=0.953 : test_acc=0.951
+loss=0.1465 : train_acc=0.959 : test_acc=0.956
+loss=0.1079 : train_acc=0.963 : test_acc=0.958
+loss=0.1175 : train_acc=0.964 : test_acc=0.959
+loss=0.0743 : train_acc=0.966 : test_acc=0.960
+loss=0.0323 : train_acc=0.970 : test_acc=0.964
+loss=0.0563 : train_acc=0.971 : test_acc=0.963
+loss=0.0952 : train_acc=0.974 : test_acc=0.966
+loss=0.0597 : train_acc=0.975 : test_acc=0.969
+loss=0.0486 : train_acc=0.977 : test_acc=0.969
+loss=0.0601 : train_acc=0.978 : test_acc=0.968
+elapsed_time:56.25017595291138[sec]
