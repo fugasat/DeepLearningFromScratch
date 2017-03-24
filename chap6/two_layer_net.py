@@ -12,19 +12,35 @@ import time
 
 class TwoLayerNet:
 
-    def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01):
+    def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01, use_ReLU=True):
         # 重み初期化
         self.params = {}
-        self.params['W1'] = weight_init_std * np.random.randn(input_size, hidden_size)
+
+        weight_init_std1 = weight_init_std
+        if weight_init_std1 < 0:
+            if use_ReLU:
+                weight_init_std1 = np.sqrt(2 / input_size)
+            else:
+                weight_init_std1 = np.sqrt(1 / input_size)
+        self.params['W1'] = weight_init_std1 * np.random.randn(input_size, hidden_size)
         self.params['b1'] = np.zeros(hidden_size)
-        self.params['W2'] = weight_init_std * np.random.randn(hidden_size, output_size)
+
+        weight_init_std2 = weight_init_std
+        if weight_init_std2 < 0:
+            if use_ReLU:
+                weight_init_std2 = np.sqrt(2 / hidden_size)
+            else:
+                weight_init_std2 = np.sqrt(1 / hidden_size)
+        self.params['W2'] = weight_init_std2 * np.random.randn(hidden_size, output_size)
         self.params['b2'] = np.zeros(output_size)
 
         # レイヤ生成
         self.layers = OrderedDict()
         self.layers['Affine1'] = Affine(self.params['W1'], self.params['b1'])
-        self.layers['Relu1'] = Relu()
-        #  self.layers['Sigmoid1'] = Sigmoid()
+        if use_ReLU:
+            self.layers['Relu1'] = Relu()
+        else:
+            self.layers['Sigmoid1'] = Sigmoid()
         self.layers['Affine2'] = Affine(self.params['W2'], self.params['b2'])
 
         self.lastLayer = SoftmaxWithLoss()
@@ -168,6 +184,8 @@ def train_nn(name, optimizer, network):
     print("elapsed_time:{0}[sec]".format(str(elapsed_time)))
 
 if __name__ == '__main__':
+    """
+    """
     optimizers = {
         "SGD": SGD(lr=0.01),
         "Momentum": Momentum(lr=0.01, momentum=0.9),
@@ -175,9 +193,15 @@ if __name__ == '__main__':
         "Adam": Adam(lr=0.001, beta1=0.9, beta2=0.999),
     }
     for key in optimizers.keys():
-        train_nn(key, optimizers[key], TwoLayerNet(input_size=784, hidden_size=50, output_size=10))
+        train_nn(key, optimizers[key], TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=0.01))
 
     train_nn("SGD_W0", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=0))
     train_nn("SGD_W1", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=1))
 
+    train_nn("SGD_Sig_0.01", SGD(lr=0.01),
+             TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=0.01, use_ReLU=False))
+    train_nn("SGD_Sig_Xavier", SGD(lr=0.01),
+             TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=-1, use_ReLU=False))
 
+    train_nn("SGD_0.01", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=0.01))
+    train_nn("SGD_He", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=-1))

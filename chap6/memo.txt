@@ -1,0 +1,78 @@
+**** Optimizer比較(ReLU) ****
+
+Optimizer=Adam
+loss=2.2964 : train_acc=0.156 : test_acc=0.156
+loss=0.2433 : train_acc=0.917 : test_acc=0.920
+...
+loss=0.0416 : train_acc=0.988 : test_acc=0.971
+elapsed_time:55.42701196670532[sec]
+
+Optimizer=Momentum
+loss=2.3033 : train_acc=0.080 : test_acc=0.077
+loss=0.4172 : train_acc=0.904 : test_acc=0.906
+...
+loss=0.0516 : train_acc=0.978 : test_acc=0.968
+elapsed_time:56.25017595291138[sec]
+
+Optimizer=AdaGrad
+loss=2.2389 : train_acc=0.157 : test_acc=0.159
+loss=0.2809 : train_acc=0.913 : test_acc=0.916
+...
+loss=0.1734 : train_acc=0.953 : test_acc=0.948
+elapsed_time:60.391401052474976[sec]
+
+Optimizer=SGD
+loss=2.3033 : train_acc=0.070 : test_acc=0.067
+loss=1.9567 : train_acc=0.550 : test_acc=0.553
+...
+loss=0.2478 : train_acc=0.919 : test_acc=0.921
+elapsed_time:54.726036071777344[sec]
+
+**** weight_init_std(W)が0または1 ****
+
+Optimizer=SGD_W0
+loss=2.3025 : train_acc=0.102 : test_acc=0.101
+loss=2.3044 : train_acc=0.112 : test_acc=0.114
+...
+loss=2.2926 : train_acc=0.112 : test_acc=0.114
+elapsed_time:52.85869598388672[sec]
+
+Optimizer=SGD_W1
+loss=63.9176 : train_acc=0.092 : test_acc=0.101
+loss=4.2422 : train_acc=0.674 : test_acc=0.684
+...
+loss=0.4925 : train_acc=0.832 : test_acc=0.843
+elapsed_time:54.79617190361023[sec]
+
+**** Xavier比較(Sigmoid) ****
+
+Optimizer=SGD_Sig_0.01
+loss=2.3019 : train_acc=0.112 : test_acc=0.114
+loss=2.2958 : train_acc=0.112 : test_acc=0.114
+...
+loss=0.5834 : train_acc=0.858 : test_acc=0.862
+elapsed_time:57.92153787612915[sec]
+
+Optimizer=SGD_Sig_Xavier
+loss=2.3436 : train_acc=0.099 : test_acc=0.101
+loss=1.8636 : train_acc=0.636 : test_acc=0.649
+...
+loss=0.4180 : train_acc=0.891 : test_acc=0.896
+elapsed_time:53.78064012527466[sec]
+
+**** He比較(ReLU) ****
+
+Optimizer=SGD_0.01
+loss=2.3027 : train_acc=0.050 : test_acc=0.047
+loss=2.0385 : train_acc=0.514 : test_acc=0.520
+...
+loss=0.2102 : train_acc=0.921 : test_acc=0.924
+elapsed_time:54.20355701446533[sec]
+
+Optimizer=SGD_He
+loss=2.3386 : train_acc=0.175 : test_acc=0.175
+loss=0.5532 : train_acc=0.847 : test_acc=0.852
+...
+loss=0.1973 : train_acc=0.934 : test_acc=0.936
+elapsed_time:52.72968888282776[sec]
+
