@@ -8,6 +8,7 @@ from collections import OrderedDict
 from dataset.mnist import load_mnist
 import matplotlib.pylab as plt
 import time
+import pickle
 
 
 class TwoLayerNet:
@@ -182,6 +183,20 @@ def train_nn(name, optimizer, network):
 
     elapsed_time = time.time() - start
     print("elapsed_time:{0}[sec]".format(str(elapsed_time)))
+
+    result = NetResult(network, train_loss_list, train_acc_list, test_acc_list, elapsed_time)
+    with open(name + ".pkl", mode='wb') as f:
+        pickle.dump(result, f)
+
+
+class NetResult:
+    def __init__(self, network, train_loss_list, train_acc_list, test_acc_list, elapsed_time):
+        self.network = network
+        self.train_loss_list = train_loss_list
+        self.train_acc_list = train_acc_list
+        self.test_acc_list = test_acc_list
+        self.elapsed_time = elapsed_time
+
 
 if __name__ == '__main__':
     """
