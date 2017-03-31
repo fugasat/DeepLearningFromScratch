@@ -12,16 +12,37 @@ import pickle
 from chap6.two_layer_net import TwoLayerNet, NetResult
 
 
-name = "SGD_He"
-with open(name + ".pkl", mode='rb') as f:
-    result = pickle.load(f)
+def get_result(name):
+    with open(name + ".pkl", mode='rb') as f:
+        result = pickle.load(f)
+    return result
 
-x_iter = np.arange(0, len(result.train_loss_list), 1)
+"""
+    Optimizer毎の性能を比較
+"""
+optimizers = OrderedDict()
+optimizers["SGD"] = get_result("SGD")
+optimizers["AdaGrad"] = get_result("AdaGrad")
+optimizers["Momentum"] = get_result("Momentum")
+optimizers["Adam"] = get_result("Adam")
+
+batch_size = 100
+x_size = len(optimizers["SGD"].train_loss_list)
+x_iter = np.arange(0, x_size, batch_size)
 
 plt.xlabel("iteration")
 plt.ylabel("loss")
-plt.ylim(0, 3)
-plt.xlim(0, len(result.train_loss_list) + 1)
-plt.plot(x_iter, result.train_loss_list)
-plt.savefig('graph_' + name + '_nn_loss.png')
+plt.ylim(0, 2.5)
+plt.xlim(0, x_size + 1)
+for key in optimizers.keys():
+    train_loss_list = np.array(optimizers[key].train_loss_list)
+    # Batchサイズ毎に平均値で値をならす
+    train_loss_list_ave = []
+    for i in x_iter:
+        batch_train_loss_list = train_loss_list[i:i + batch_size]
+        train_loss_list_ave.append(batch_train_loss_list.mean())
+    plt.plot(x_iter, train_loss_list_ave, label=key)
+
+plt.legend()
+plt.savefig('graph_optimizer_loss.png')
 plt.clf()
