@@ -17,6 +17,31 @@ def get_result(name):
         result = pickle.load(f)
     return result
 
+
+def draw_graph(optimizers, graph_name, ylim=2.5):
+    batch_size = 100
+    x_size = len(list(optimizers.values())[0].train_loss_list)
+    x_iter = np.arange(0, x_size, batch_size)
+
+    plt.xlabel("iteration")
+    plt.ylabel("loss")
+    plt.ylim(0, ylim)
+    plt.xlim(0, x_size + 1)
+    for key in optimizers.keys():
+        train_loss_list = np.array(optimizers[key].train_loss_list)
+        # Batchサイズ毎に平均値で値をならす
+        train_loss_list_ave = []
+        for i in x_iter:
+            batch_train_loss_list = train_loss_list[i:i + batch_size]
+            train_loss_list_ave.append(batch_train_loss_list.mean())
+        plt.plot(x_iter, train_loss_list_ave, label=key)
+
+    plt.legend()
+    plt.savefig(graph_name + ".png")
+    plt.clf()
+    pass
+
+
 """
     Optimizer毎の性能を比較
 """
@@ -25,24 +50,21 @@ optimizers["SGD"] = get_result("SGD")
 optimizers["AdaGrad"] = get_result("AdaGrad")
 optimizers["Momentum"] = get_result("Momentum")
 optimizers["Adam"] = get_result("Adam")
+draw_graph(optimizers, "graph_optimizer_loss")
 
-batch_size = 100
-x_size = len(optimizers["SGD"].train_loss_list)
-x_iter = np.arange(0, x_size, batch_size)
+"""
+    重みWの初期値の違いを比較
+"""
+optimizers = OrderedDict()
+optimizers["SGD(W=0)"] = get_result("SGD_W0")
+optimizers["SGD(W=1)"] = get_result("SGD_W1")
+optimizers["SGD(W=0.01)"] = get_result("SGD")
+draw_graph(optimizers, "graph_initial_W_value", ylim=10)
 
-plt.xlabel("iteration")
-plt.ylabel("loss")
-plt.ylim(0, 2.5)
-plt.xlim(0, x_size + 1)
-for key in optimizers.keys():
-    train_loss_list = np.array(optimizers[key].train_loss_list)
-    # Batchサイズ毎に平均値で値をならす
-    train_loss_list_ave = []
-    for i in x_iter:
-        batch_train_loss_list = train_loss_list[i:i + batch_size]
-        train_loss_list_ave.append(batch_train_loss_list.mean())
-    plt.plot(x_iter, train_loss_list_ave, label=key)
-
-plt.legend()
-plt.savefig('graph_optimizer_loss.png')
-plt.clf()
+"""
+    活性化関数をSigmoidにしたときの初期値比較
+"""
+optimizers = OrderedDict()
+optimizers["SGD(W=0.01)"] = get_result("SGD_Sig_0.01")
+optimizers["SGD(W=Xavier)"] = get_result("SGD_Sig_Xavier")
+draw_graph(optimizers, "graph_initial_W_use_xavier")
