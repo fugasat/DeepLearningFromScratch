@@ -13,25 +13,19 @@ import pickle
 
 class TwoLayerNet:
 
-    def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01, use_ReLU=True):
+    def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01, use_ReLU=True, weight_init_std_sqrt=2):
         # 重み初期化
         self.params = {}
 
         weight_init_std1 = weight_init_std
         if weight_init_std1 < 0:
-            if use_ReLU:
-                weight_init_std1 = np.sqrt(2 / input_size)
-            else:
-                weight_init_std1 = np.sqrt(1 / input_size)
+            weight_init_std1 = np.sqrt(weight_init_std_sqrt / input_size)
         self.params['W1'] = weight_init_std1 * np.random.randn(input_size, hidden_size)
         self.params['b1'] = np.zeros(hidden_size)
 
         weight_init_std2 = weight_init_std
         if weight_init_std2 < 0:
-            if use_ReLU:
-                weight_init_std2 = np.sqrt(2 / hidden_size)
-            else:
-                weight_init_std2 = np.sqrt(1 / hidden_size)
+            weight_init_std2 = np.sqrt(weight_init_std_sqrt / hidden_size)
         self.params['W2'] = weight_init_std2 * np.random.randn(hidden_size, output_size)
         self.params['b2'] = np.zeros(output_size)
 
@@ -164,6 +158,7 @@ def train_nn(name, optimizer, network):
             test_acc_list.append(test_acc)
             print("loss={0:.4f} : train_acc={1:.3f} : test_acc={2:.3f}".format(loss, train_acc, test_acc))
 
+            """
             x_iter = np.arange(0, len(train_loss_list), 1)
             plt.xlabel("iteration")
             plt.ylabel("loss")
@@ -180,6 +175,7 @@ def train_nn(name, optimizer, network):
             plt.plot(x_iter, test_acc_list)
             plt.savefig('graph_' + name + '_nn_acc.png')
             plt.clf()
+            """
 
     elapsed_time = time.time() - start
     print("elapsed_time:{0}[sec]".format(str(elapsed_time)))
@@ -199,8 +195,6 @@ class NetResult:
 
 
 if __name__ == '__main__':
-    """
-    """
     optimizers = {
         "SGD": SGD(lr=0.01),
         "Momentum": Momentum(lr=0.01, momentum=0.9),
@@ -214,9 +208,16 @@ if __name__ == '__main__':
     train_nn("SGD_W1", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=1))
 
     train_nn("SGD_Sig_0.01", SGD(lr=0.01),
-             TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=0.01, use_ReLU=False))
+             TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=0.01,
+              use_ReLU=False, weight_init_std_sqrt=1))
     train_nn("SGD_Sig_Xavier", SGD(lr=0.01),
-             TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=-1, use_ReLU=False))
+             TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=-1,
+                         use_ReLU=False, weight_init_std_sqrt=1))
+    train_nn("SGD_Sig_He", SGD(lr=0.01),
+             TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=-1,
+                         use_ReLU=False))
 
     train_nn("SGD_0.01", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=0.01))
     train_nn("SGD_He", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=-1))
+    train_nn("SGD_Xavier", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10,
+                                                     weight_init_std=-1, weight_init_std_sqrt=1))
