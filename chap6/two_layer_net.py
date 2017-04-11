@@ -195,6 +195,8 @@ class NetResult:
 
 
 if __name__ == '__main__':
+    """
+    """
     optimizers = {
         "SGD": SGD(lr=0.01),
         "Momentum": Momentum(lr=0.01, momentum=0.9),
@@ -221,3 +223,4 @@ if __name__ == '__main__':
     train_nn("SGD_He", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=-1))
     train_nn("SGD_Xavier", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10,
                                                      weight_init_std=-1, weight_init_std_sqrt=1))
+    train_nn("SGD_W_all_0.01", SGD(lr=0.01), TwoLayerNet(input_size=784, hidden_size=50, output_size=10, weight_init_std=0.01))
